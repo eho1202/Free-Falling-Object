@@ -5,23 +5,73 @@ public class ball extends JPanel {
 	// Properties of the ball
 	int intX = 30;
 	int intY = 30;
-	double dblDistanceX = 20;
-	double dblDistanceY = 50;
+	int intDistanceX = 50;
+	int intDistanceY = 300;
 	int intX1;
 	int intY1;
-	double dblGravity = -9.8;
-	double dblMass = 10;
-	double dblSpeed;
-	
+	double dblGravity = 9.8;
+	double bounce = 0.7;
+	double friction = 0.1;
+	double vx = 5; // velocity of x-axis
+	double vy; // velocity of y-axis
+	Point mouse;
+	boolean blnFall;
+	boolean blnDrag;
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.fillOval((int)dblDistanceX, (int)dblDistanceY, intX, intY );
+		g.fillOval(intDistanceX, intDistanceY, intX, intY );
 		g.drawRect(0, 0, 649, 649);
+		
+		vy = Math.pow((Math.random() * -15) + -5, 2) / (2 * dblGravity);
+		
+		intDistanceY += vy;
+		vy += dblGravity;
+		
+		
+			
+		// if ball hits the floor
+		if (intDistanceY + intY > 649) {
+			intDistanceY = 649 - intY;
+			vy = vy * -bounce;
+			if (vy < 0 && vy > -2.1) {
+				vy = 0;
+			}
+			if (Math.abs(vx) < 1.1) {
+				vx = 0;
+			}
+			
+			if (vx > 0) {
+				vx = vx - friction;
+			}
+			if (vx < 0 ) {
+				vx = vx + friction;
+			}
+			
+		} else if (intDistanceY < 0) {
+			intDistanceY = intDistanceY + intY;
+			vy = vy * -bounce;
+			if (vy < 0 && vy > -2.1) {
+				vy = 0;
+			}
+			if (Math.abs(vx) < 1.1) {
+				vx = 0;
+			}
+			
+			if (vx > 0) {
+				vx = vx - friction;
+			}
+			if (vx < 0 ) {
+				vx = vx + friction;
+			}
+		
+		}
+		
 	}
 	
-	ball() {
-		super();
-	}
+	
+	
+	
+	
 	
 }
