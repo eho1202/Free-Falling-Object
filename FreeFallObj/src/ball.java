@@ -14,14 +14,16 @@ public class ball extends JPanel {
 	double friction = 0.1;
 	double vx = 5; // velocity of x-axis
 	double vy; // velocity of y-axis
-	Point mouse;
 	boolean blnFall;
 	boolean blnDrag;
+	
+	int dragFromX = 0;
+	int dragFromY = 0;
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.fillOval(intDistanceX, intDistanceY, intX, intY );
-		g.drawRect(0, 0, 649, 649);
+		g.drawRect(0, 20, 649, 629);
 		
 		vy = Math.pow((Math.random() * -15) + -5, 2) / (2 * dblGravity);
 		
@@ -48,7 +50,7 @@ public class ball extends JPanel {
 				vx = vx + friction;
 			}
 			
-		} else if (intDistanceY < 0) {
+		} else if (intDistanceY < 20) {
 			intDistanceY = intDistanceY + intY;
 			vy = vy * -bounce;
 			if (vy < 0 && vy > -2.1) {
@@ -68,10 +70,5 @@ public class ball extends JPanel {
 		}
 		
 	}
-	
-	
-	
-	
-	
-	
+		
 }

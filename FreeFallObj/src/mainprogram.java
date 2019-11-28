@@ -14,14 +14,26 @@ public class mainprogram implements ActionListener, ChangeListener, MouseMotionL
 	JFrame theframe = new JFrame();
 	ball mainpanel = new ball();
 	JSlider timeslider = new JSlider(0, 100, 10);
-	JLabel timelabel = new JLabel("Time:");
 	Timer thetimer = new Timer (1000/48, this);
+	JMenuBar thebar = new JMenuBar();
+	JMenu themenu = new JMenu ("Click Me");
+	JMenuItem theabout = new JMenuItem("About");
+	JMenuItem thehelp = new JMenuItem("Help");
 
 	// Methods
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == thetimer) {
 			mainpanel.repaint();
 		}
+		
+		if (evt.getSource() == theabout) {
+			
+		}
+		
+		if (evt.getSource() == thehelp) {
+			
+		}
+		
 	}
 	
 	public void stateChanged(ChangeEvent evt) {
@@ -29,35 +41,40 @@ public class mainprogram implements ActionListener, ChangeListener, MouseMotionL
 	}
 	
 	public void mouseDragged(MouseEvent evt) {
-		mouseMoved(evt);
+		if (mainpanel.blnDrag) {
+			mainpanel.intDistanceX = evt.getX();
+			mainpanel.intDistanceY = evt.getY();
+			mainpanel.repaint();
+		}
 	}
 
 	public void mouseMoved(MouseEvent evt) {
-		mainpanel.intDistanceX = evt.getX();
-		mainpanel.intDistanceY = evt.getY();
-		mainpanel.repaint();
+		mainpanel.blnDrag = false;
 	}
 	
 	public void mouseClicked(MouseEvent evt) {
-		mainpanel.intDistanceX = evt.getX();
-		mainpanel.intDistanceY = evt.getY();
-		mainpanel.repaint();
+		
 	}
 
 	public void mouseEntered(MouseEvent evt) {
-		
+		mainpanel.blnDrag = false;
 	}
 
 	public void mouseExited(MouseEvent evt) {
-		
+		mainpanel.blnDrag = false;
 	}
 
 	public void mousePressed(MouseEvent evt) {
+		int x = evt.getX();
+		int y = evt.getY();
+		if (x >= mainpanel.intDistanceX && x <= mainpanel.intDistanceX + 30 && y >= mainpanel.intDistanceY && y <= mainpanel.intDistanceY + 30) {
+			mainpanel.blnDrag = true;
+		}
 		
 	}
-
+	
 	public void mouseReleased(MouseEvent evt) {
-		
+		mainpanel.blnDrag = false;
 	}
 	
 	// Constructor
@@ -66,9 +83,13 @@ public class mainprogram implements ActionListener, ChangeListener, MouseMotionL
 		mainpanel.setPreferredSize(new Dimension(960,640));
 		mainpanel.setLayout(null);
 		
-		timelabel.setSize(320,30);
-		timelabel.setLocation(660,320);
-		mainpanel.add(timelabel);
+		thebar.setSize(970,20);
+		thebar.setLocation(0,0);
+		mainpanel.add(thebar);
+		
+		thebar.add(themenu);
+		themenu.add(theabout);
+		themenu.add(thehelp);
 		
 		timeslider.setSize(320,40);
 		timeslider.setLocation(650, 350);
