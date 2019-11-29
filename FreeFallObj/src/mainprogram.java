@@ -21,11 +21,15 @@ public class mainprogram implements ActionListener, MouseMotionListener, MouseLi
 	JScrollPane thescroll = new JScrollPane(theta);
 	ImageIcon image = new ImageIcon(this.getClass().getResource("/acceleration.png"));
 	JLabel theimagelabel = new JLabel();
+	JMenu questionmenu = new JMenu("Practice Question");
+	JMenuItem question1 = new JMenuItem("Question 1");
 
 	// creates an object for aboutpage class
 	aboutpage aboutpanel = new aboutpage();
 	// creates an object for helppage class
 	helppage helppanel = new helppage();
+	// creates an object for question1 class
+	question1 q1panel = new question1();
 
 	// Methods
 	public void actionPerformed(ActionEvent evt) {
@@ -41,6 +45,11 @@ public class mainprogram implements ActionListener, MouseMotionListener, MouseLi
 		if (evt.getSource() == thehelp) {
 			// calls on the helppage method in helppage class using helppanel object
 			helppanel.helppage();
+		}
+		
+		if (evt.getSource() == question1) {
+			// calls on the question1 method in question1 class using q1panel object
+			q1panel.question1();
 		}
 
 	}
@@ -104,6 +113,10 @@ public class mainprogram implements ActionListener, MouseMotionListener, MouseLi
 		theabout.addActionListener(this);
 		themenu.add(thehelp);
 		thehelp.addActionListener(this);
+		
+		thebar.add(questionmenu);
+		questionmenu.add(question1);
+		question1.addActionListener(this);
 
 		thefieldlabel.setSize(150, 40);
 		thefieldlabel.setLocation(560, 50);

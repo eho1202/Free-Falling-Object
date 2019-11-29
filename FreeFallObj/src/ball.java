@@ -1,20 +1,45 @@
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * The animation panel of the project
+ * @author Ernestine
+ *
+ */
 public class ball extends JPanel {
 	// sets size of ball
+	/**
+	 * The dimensions of the ball
+	 */
 	int intX = 30;
 	int intY = 30;
 	// sets location of the ball
+	/**
+	 * Sets locations of the ball
+	 */
 	int intDistanceX = 50;
 	int intDistanceY = 300;
-
+	
+	/**
+	 * Default values of acceleration due to gravity on Earth
+	 */
 	double dblGravity = 9.8; // gravity of earth
+	/**
+	 * Variable for velocity in the y-axis
+	 */
 	double vy; // velocity of y-axis
-
+	
 	boolean blnDrag; // used to check if user is dragging ball
 
 	// method
+	/**
+	 * Draws balls and sets location of the ball
+	 * vy is randomized
+	 * The ball is forced to stay inside box
+	 */
+	/**
+	 *
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawRect(0, 20, 540, 529);
@@ -44,6 +69,9 @@ public class ball extends JPanel {
 	}
 
 	// constructor
+	/**
+	 * Constructs an object
+	 */
 	ball() {
 		super();
 	}
