@@ -5,43 +5,50 @@ import javax.swing.event.*;
 
 /* 
  * acceleration due to gravity
- * gravity equation --> d =  v1t  + (at^2)/2
- * where v1 = 0
  */
 
-public class mainprogram implements ActionListener, ChangeListener, MouseMotionListener, MouseListener {
+public class mainprogram implements ActionListener, MouseMotionListener, MouseListener {
 	// Properties
-	JFrame theframe = new JFrame();
+	JFrame theframe = new JFrame("Rate of Accerlation due to Gravity");
 	ball mainpanel = new ball();
-	JSlider timeslider = new JSlider(0, 100, 10);
-	Timer thetimer = new Timer (1000/48, this);
+	Timer thetimer = new Timer(1000 / 48, this);
 	JMenuBar thebar = new JMenuBar();
-	JMenu themenu = new JMenu ("Click Me");
+	JMenu themenu = new JMenu("Click Me");
 	JMenuItem theabout = new JMenuItem("About");
 	JMenuItem thehelp = new JMenuItem("Help");
+	JTextArea theta = new JTextArea();
+	JLabel thefieldlabel = new JLabel();
+	JScrollPane thescroll = new JScrollPane(theta);
+	ImageIcon image = new ImageIcon(this.getClass().getResource("/acceleration.png"));
+	JLabel theimagelabel = new JLabel();
+
+	// creates an object for aboutpage class
+	aboutpage aboutpanel = new aboutpage();
+	// creates an object for helppage class
+	helppage helppanel = new helppage();
 
 	// Methods
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == thetimer) {
 			mainpanel.repaint();
 		}
-		
+
 		if (evt.getSource() == theabout) {
-			
+			// calls on the aboutpage method in aboutpage class using aboutpanel object
+			aboutpanel.aboutpage();
 		}
-		
+
 		if (evt.getSource() == thehelp) {
-			
+			// calls on the helppage method in helppage class using helppanel object
+			helppanel.helppage();
 		}
-		
+
 	}
-	
-	public void stateChanged(ChangeEvent evt) {
-		
-	}
-	
+
 	public void mouseDragged(MouseEvent evt) {
+		// if blnDrag is true, user can drag ball
 		if (mainpanel.blnDrag) {
+			// compares ball coordinates with pointer coordinates
 			mainpanel.intDistanceX = evt.getX();
 			mainpanel.intDistanceY = evt.getY();
 			mainpanel.repaint();
@@ -51,9 +58,8 @@ public class mainprogram implements ActionListener, ChangeListener, MouseMotionL
 	public void mouseMoved(MouseEvent evt) {
 		mainpanel.blnDrag = false;
 	}
-	
+
 	public void mouseClicked(MouseEvent evt) {
-		
 	}
 
 	public void mouseEntered(MouseEvent evt) {
@@ -67,56 +73,69 @@ public class mainprogram implements ActionListener, ChangeListener, MouseMotionL
 	public void mousePressed(MouseEvent evt) {
 		int x = evt.getX();
 		int y = evt.getY();
-		if (x >= mainpanel.intDistanceX && x <= mainpanel.intDistanceX + 30 && y >= mainpanel.intDistanceY && y <= mainpanel.intDistanceY + 30) {
+		// if the mouse pointer is within the parameter, blnDrag is true
+		if (x >= mainpanel.intDistanceX && x <= mainpanel.intDistanceX + 30 && y >= mainpanel.intDistanceY
+				&& y <= mainpanel.intDistanceY + 30) {
 			mainpanel.blnDrag = true;
 		}
-		
 	}
-	
+
 	public void mouseReleased(MouseEvent evt) {
 		mainpanel.blnDrag = false;
+		// instead of showing the y-coordinate of the ball, it shows the fall distance
+		// of the ball
+		int y = 529 - mainpanel.intDistanceY;
+		String why = String.valueOf(y);
+		theta.append(why + "m\n");
 	}
-	
+
 	// Constructor
 	public mainprogram() {
-		
-		mainpanel.setPreferredSize(new Dimension(960,640));
+
+		mainpanel.setPreferredSize(new Dimension(960, 540));
 		mainpanel.setLayout(null);
-		
-		thebar.setSize(970,20);
-		thebar.setLocation(0,0);
+
+		thebar.setSize(960, 20);
+		thebar.setLocation(0, 0);
 		mainpanel.add(thebar);
-		
+
 		thebar.add(themenu);
 		themenu.add(theabout);
+		theabout.addActionListener(this);
 		themenu.add(thehelp);
-		
-		timeslider.setSize(320,40);
-		timeslider.setLocation(650, 350);
-		timeslider.setMajorTickSpacing(10);
-		timeslider.setMinorTickSpacing(2);
-		timeslider.setPaintLabels(true);
-		timeslider.setPaintTicks(true);
-		timeslider.setSnapToTicks(true);
-		timeslider.addChangeListener(this);
-		mainpanel.add(timeslider);
-		
+		thehelp.addActionListener(this);
+
+		thefieldlabel.setSize(150, 40);
+		thefieldlabel.setLocation(560, 50);
+		thefieldlabel.setFont(thefieldlabel.getFont().deriveFont(14.0f)); // changes size of font
+		thefieldlabel.setText("Drop Distance (m)");
+		mainpanel.add(thefieldlabel);
+
+		thescroll.setSize(150, 440);
+		thescroll.setLocation(545, 80);
+		mainpanel.add(thescroll);
+
+		theimagelabel.setSize(250, 300);
+		theimagelabel.setLocation(700, 120);
+		theimagelabel.setIcon(image);
+		mainpanel.add(theimagelabel);
+
 		mainpanel.addMouseMotionListener(this);
 		mainpanel.addMouseListener(this);
-		
+
 		theframe.setContentPane(mainpanel);
 		theframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		theframe.pack();
 		theframe.setVisible(true);
-		theframe.setLocationRelativeTo(null);
+		theframe.setLocationRelativeTo(null); // causes theframe to center on screen
 		theframe.setResizable(false);
-		
+
 		thetimer.start();
 	}
-	
+
 	public static void main(String[] args) {
 		new mainprogram();
-		
+
 	}
-	
+
 }

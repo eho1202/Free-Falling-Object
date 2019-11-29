@@ -2,73 +2,50 @@ import java.awt.*;
 import javax.swing.*;
 
 public class ball extends JPanel {
-	// Properties of the ball
+	// sets size of ball
 	int intX = 30;
 	int intY = 30;
+	// sets location of the ball
 	int intDistanceX = 50;
 	int intDistanceY = 300;
-	int intX1;
-	int intY1;
-	double dblGravity = 9.8;
-	double bounce = 0.7;
-	double friction = 0.1;
-	double vx = 5; // velocity of x-axis
+
+	double dblGravity = 9.8; // gravity of earth
 	double vy; // velocity of y-axis
-	boolean blnFall;
-	boolean blnDrag;
-	
-	int dragFromX = 0;
-	int dragFromY = 0;
-	
+
+	boolean blnDrag; // used to check if user is dragging ball
+
+	// method
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.fillOval(intDistanceX, intDistanceY, intX, intY );
-		g.drawRect(0, 20, 649, 629);
-		
+		g.drawRect(0, 20, 540, 529);
+		Graphics2D g2 = (Graphics2D) g;
+		// renders ball, makes it rounder
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.fillOval(intDistanceX, intDistanceY, intX, intY);
+
+		// randomizes velocity of y-axis
 		vy = Math.pow((Math.random() * -15) + -5, 2) / (2 * dblGravity);
-		
-		intDistanceY += vy;
-		vy += dblGravity;
-		
-		
-			
-		// if ball hits the floor
-		if (intDistanceY + intY > 649) {
-			intDistanceY = 649 - intY;
-			vy = vy * -bounce;
-			if (vy < 0 && vy > -2.1) {
-				vy = 0;
-			}
-			if (Math.abs(vx) < 1.1) {
-				vx = 0;
-			}
-			
-			if (vx > 0) {
-				vx = vx - friction;
-			}
-			if (vx < 0 ) {
-				vx = vx + friction;
-			}
-			
-		} else if (intDistanceY < 20) {
+
+		intDistanceY += vy; // vy updates Y Distance of ball
+		vy += dblGravity; // dblGravity updates vy
+
+		// if ball hits the floor, ball should stay on the floor
+		if (intDistanceY + intY > 529) {
+			intDistanceY = 540 - intY;
+		} else if (intDistanceY < 20) { // if ball hits the ceiling, ball should fall
 			intDistanceY = intDistanceY + intY;
-			vy = vy * -bounce;
-			if (vy < 0 && vy > -2.1) {
-				vy = 0;
-			}
-			if (Math.abs(vx) < 1.1) {
-				vx = 0;
-			}
-			
-			if (vx > 0) {
-				vx = vx - friction;
-			}
-			if (vx < 0 ) {
-				vx = vx + friction;
-			}
-		
 		}
-		
+
+		// if ball hits the right wall, ball should stay inside the box
+		if (intDistanceX + intX > 540) {
+			intDistanceX = 540 - intX;
+		}
+
 	}
-		
+
+	// constructor
+	ball() {
+		super();
+	}
+
 }
